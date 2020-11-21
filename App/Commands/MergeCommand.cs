@@ -22,12 +22,14 @@ namespace Ns2020.App
         public List<string> OptionalArgumentList = new List<string>();
         private readonly IEventRepository _eventRepository;
         private readonly ILogger<MergeCommand> _logger;
+        private ILocationRepository _locationRepository;
 
-        public MergeCommand(ICounselorRepository counselorRepository, IEventRepository eventRepository, IOptions<FileLocationOptions> fileLocationOptions, ILogger<MergeCommand> logger)
+        public MergeCommand(ICounselorRepository counselorRepository, IEventRepository eventRepository, IOptions<FileLocationOptions> fileLocationOptions, ILogger<MergeCommand> logger, ILocationRepository locationRepository)
         {
             _counselorRepository = counselorRepository;
             _eventRepository = eventRepository;
             _logger = logger;
+            _locationRepository = locationRepository;
             IsCommand("Flet", "Fletter Vejledere, Arrangementer og Steder til Resultatfil");
 
             //HasOption("b|booleanOption", "Boolean flag option", b => BooleanOption = true);
@@ -60,10 +62,13 @@ namespace Ns2020.App
             if (BooleanOption) throw new Exception("Throwing unhandled exception because BooleanOption is true");
 
             var counselors = _counselorRepository.GetAll().ToArray();
-            _logger.LogInformation("Vejledere:"+counselors.Length);
+            _logger.LogInformation("Vejledere: "+counselors.Length);
 
             var events = _eventRepository.GetAll().ToArray();
-            Console.WriteLine(events.Length);
+            _logger.LogInformation("Arrangementer: " + events.Length);
+
+            var locations = _locationRepository.GetAll().ToArray();
+            _logger.LogInformation("Steder: " + locations.Length);
 
             return 0;
         }

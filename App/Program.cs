@@ -15,7 +15,7 @@ using Serilog;
 
 namespace Ns2020.App
 {
-    class Program
+    public class Program
     {
         static int Main(string[] args)
         {
@@ -30,19 +30,7 @@ namespace Ns2020.App
 
             Console.WriteLine("NS Planlægning 2020");
 
-            var serviceCollection = new ServiceCollection();
-            serviceCollection.AddLogging(c=>c.AddSerilog());
-            serviceCollection.AddScoped<ICounselorRepository, CounselorRepositoryExcel>();
-            serviceCollection.AddScoped<IEventRepository, EventRepositoryExcel>();
-
-            // Add access to generic IConfigurationRoot
-            serviceCollection.AddSingleton(configuration);
-            serviceCollection.AddOptions();
-            serviceCollection.Configure<FileLocationOptions>(configuration.GetSection("FileLocation"));
-
-            Assembly.GetAssembly(typeof(MergeCommand))?
-                .GetTypesAssignableFrom<ConsoleCommand>()
-                .ForEach(t => { serviceCollection.AddScoped(typeof(ConsoleCommand), t); });
+            var serviceCollection = GetServiceCollection(configuration);
 
             var serviceProvider = serviceCollection
                 .BuildServiceProvider();
@@ -52,6 +40,25 @@ namespace Ns2020.App
 
             // then run them.
             return ConsoleCommandDispatcher.DispatchCommand(commands, args, Console.Out);
+        }
+
+        public static ServiceCollection GetServiceCollection(IConfigurationRoot configuration)
+        {
+            var serviceCollection = new ServiceCollection();
+            serviceCollection.AddLogging(c => c.AddSerilog());
+            serviceCollection.AddScoped<ICounselorRepository, CounselorRepositoryExcel>();
+            serviceCollection.AddScoped<IEventRepository, EventRepositoryExcel>();
+            serviceCollection.AddScoped<ILocationRepository, LocationRepositoryExcel>();
+
+            // Add access to generic IConfigurationRoot
+            serviceCollection.AddSingleton(configuration);
+            serviceCollection.AddOptions();
+            serviceCollection.Configure<FileLocationOptions>(configuration.GetSection("FileLocation"));
+
+            Assembly.GetAssembly(typeof(MergeCommand))?
+                .GetTypesAssignableFrom<ConsoleCommand>()
+                .ForEach(t => { serviceCollection.AddScoped(typeof(ConsoleCommand), t); });
+            return serviceCollection;
         }
 
         public static IEnumerable<ConsoleCommand> GetCommands(ServiceProvider serviceProvider)

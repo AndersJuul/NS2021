@@ -15,4 +15,7 @@
             ContactDaysBefore = contactDaysBefore;
         }
     }
+    public class Location
+    {
+    }
 }
