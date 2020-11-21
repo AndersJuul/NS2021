@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Domain;
+using Domain.Abstractions;
 using Infrastructure.Data;
 using ManyConsole;
 using Mono.Options;

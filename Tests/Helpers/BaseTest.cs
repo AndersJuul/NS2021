@@ -2,7 +2,7 @@
 using System.Diagnostics;
 using NUnit.Framework;
 
-namespace Tests
+namespace Tests.Helpers
 {
     public class BaseTest
     {

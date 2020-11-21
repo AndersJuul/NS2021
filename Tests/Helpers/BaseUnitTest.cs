@@ -1,4 +1,4 @@
-﻿namespace Tests
+﻿namespace Tests.Helpers
 {
     public class BaseUnitTest:BaseTest
     {

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using Domain;
+using Domain.Abstractions;
 using Domain.Model.Entities;
 using Domain.Model.ValueObjects;
 using Microsoft.Extensions.Logging;

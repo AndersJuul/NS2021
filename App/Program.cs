@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using Domain;
+using Domain.Abstractions;
 using Infrastructure.Data;
 using Infrastructure.Data.FileBased;
 using ManyConsole;

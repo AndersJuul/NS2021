@@ -9,9 +9,9 @@ using Tests.Helpers;
 namespace Tests
 {
     [TestFixture]
-    public class CounselorRepositoryTests: BaseIntegrationTest
+    public class EventRepositoryTests: BaseIntegrationTest
     {
-        public CounselorRepositoryTests()
+        public EventRepositoryTests()
         {
             TestContext.WriteLine("aTest started at: " + DateTime.Now.ToString("yyyy-MM-dd HH.mm.ss"));
         }
@@ -22,15 +22,15 @@ namespace Tests
             // Arrange
             var fileLocationOptions = new FileLocationOptions {Path = @".\\TestData"};
             var locationOptions = new OptionsWrapper<FileLocationOptions>(fileLocationOptions);
-            var logger = TestLogger.Create<CounselorRepositoryExcel>();
-            var sut = new CounselorRepositoryExcel(logger, locationOptions);
+            var logger = TestLogger.Create<EventRepositoryExcel>();
+            var sut = new EventRepositoryExcel(logger, locationOptions);
 
             // Act
             var result = sut.GetAll().ToArray();
 
             // Assert
-            Assert.AreEqual(2, result.Length);
-            Assert.AreEqual("AJFAJ",result[0].Initials);
+            Assert.AreEqual(41, result.Length);
+            Assert.AreEqual("mu",result[0].EventId);
         }
     }
 }
