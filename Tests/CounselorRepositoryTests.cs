@@ -1,18 +1,22 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Infrastructure.Data;
 using Infrastructure.Data.FileBased;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using NSubstitute;
 using NUnit.Framework;
 
 namespace Tests
 {
     [TestFixture]
-    public class CounselorRepositoryTests
+    public class CounselorRepositoryTests: BaseIntegrationTest
     {
+        public CounselorRepositoryTests()
+        {
+            TestContext.WriteLine("aTest started at: " + DateTime.Now.ToString("yyyy-MM-dd HH.mm.ss"));
+        }
+
         [Test]
-        public void GetAll_ReturnsCounsolers()
+        public void GetAll_ReturnsCounselors()
         {
             // Arrange
             var fileLocationOptions = new FileLocationOptions {Path = @".\\TestData"};

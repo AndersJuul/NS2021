@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Domain.Model;
+using Domain.Model.Entities;
 
 namespace Domain
 {

@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using Domain;
-using Domain.Model;
+using Domain.Model.Entities;
+using Domain.Model.ValueObjects;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using OfficeOpenXml;
@@ -27,13 +28,14 @@ namespace Infrastructure.Data.FileBased
             
             var firstSheet = package.Workbook.Worksheets["Sheet1"];
             
-            for (int row = 2; row < firstSheet.Cells.Rows; row++)
+            for (var row = 2; row < firstSheet.Cells.Rows; row++)
             {
                 var initials = firstSheet.Cells[$"A{row}"].Text;
                 if(string.IsNullOrEmpty( initials))
                     yield break;
 
-                yield return new Counselor(initials, firstSheet.Cells[$"B{row}"].Text, firstSheet.Cells[$"C{row}"].Text, firstSheet.Cells[$"D{row}"].Text);
+                var phoneNumber = new PhoneNumber( firstSheet.Cells[$"C{row}"].Text);
+                yield return new Counselor(initials, firstSheet.Cells[$"B{row}"].Text,phoneNumber, firstSheet.Cells[$"D{row}"].Text);
             }
         }
     }
