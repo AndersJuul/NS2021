@@ -4,15 +4,15 @@ namespace Domain.Model.Entities
 {
     public class Counselor
     {
-        public Counselor(string initials, string name, PhoneNumber phone, string email)
+        public Counselor(string id, string name, PhoneNumber phone, string email)
         {
-            Initials = initials;
+            Id = id;
             Name = name;
             Phone = phone;
             Email = email;
         }
 
-        public string Initials { get; }
+        public string Id { get; }
         public string Name { get; }
         public PhoneNumber Phone { get; }
         public string Email { get; }

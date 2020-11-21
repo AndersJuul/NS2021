@@ -2,15 +2,15 @@
 {
     public class Event
     {
-        public Event(string eventId, string description, string remember, string contactDaysBefore)
+        public Event(string id, string description, string remember, string contactDaysBefore)
         {
-            EventId = eventId;
+            Id = id;
             Description = description;
             Remember = remember;
             ContactDaysBefore = contactDaysBefore;
         }
 
-        public string EventId { get; }
+        public string Id { get; }
         public string Description { get; }
         public string Remember { get; }
         public string ContactDaysBefore { get; }
