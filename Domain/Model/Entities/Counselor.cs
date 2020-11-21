@@ -2,7 +2,7 @@
 
 namespace Domain.Model.Entities
 {
-    public class Counselor
+    public class Counselor:BaseEntity
     {
         public Counselor(string id, string name, PhoneNumber phone, string email)
         {

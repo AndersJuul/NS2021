@@ -1,6 +1,6 @@
 ﻿namespace Domain.Model.Entities
 {
-    public class Event
+    public class Event:BaseEntity
     {
         public Event(string id, string description, string remember, string contactDaysBefore)
         {

@@ -1,6 +1,6 @@
 ﻿namespace Domain.Model.Entities
 {
-    public class Location
+    public class Location:BaseEntity
     {
         public Location(string id, string description)
         {

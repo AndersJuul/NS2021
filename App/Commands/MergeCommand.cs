@@ -72,6 +72,9 @@ namespace Ns2020.App
             var locations = _locationRepository.GetAll().ToArray();
             _logger.LogInformation("Steder: " + locations.Length);
 
+            //var requests = _requestRepository.GetAll().ToArray();
+            //_logger.LogInformation("Ønsker: " + requests.Length);
+
             return 0;
         }
     }
