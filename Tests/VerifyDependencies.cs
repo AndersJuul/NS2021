@@ -17,10 +17,7 @@ namespace Tests
                 .AddJsonFile("appsettings.json")
                 .Build();
             var serviceCollection = Program.GetServiceCollection(configuration);
-            foreach (var service in serviceCollection.OrderBy(x=>x.ToString()))
-            {
-                Console.WriteLine(service);
-            }
+            foreach (var service in serviceCollection.OrderBy(x => x.ToString())) Console.WriteLine(service);
             var services = serviceCollection.BuildServiceProvider();
 
             using var scope = services.CreateScope();
@@ -28,7 +25,7 @@ namespace Tests
                 .ServiceProvider
                 .GetServices<ConsoleCommand>()
                 .ToArray();
-            Assert.True(consoleCommands.Any(x=> x is MergeCommand));
+            Assert.True(consoleCommands.Any(x => x is MergeCommand));
             Assert.AreEqual(1, consoleCommands.Count());
         }
     }

@@ -6,13 +6,15 @@ using Infrastructure.Data;
 using ManyConsole;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using Mono.Options;
 
 namespace Ns2020.App
 {
     public class MergeCommand : ConsoleCommand
     {
         private readonly ICounselorRepository _counselorRepository;
+        private readonly IEventRepository _eventRepository;
+        private readonly ILogger<MergeCommand> _logger;
+        private readonly ILocationRepository _locationRepository;
 
         //public string Argument1;
         //public string Argument2;
@@ -20,11 +22,10 @@ namespace Ns2020.App
         //public string OptionalArgument2;
         public bool BooleanOption;
         public List<string> OptionalArgumentList = new List<string>();
-        private readonly IEventRepository _eventRepository;
-        private readonly ILogger<MergeCommand> _logger;
-        private ILocationRepository _locationRepository;
 
-        public MergeCommand(ICounselorRepository counselorRepository, IEventRepository eventRepository, IOptions<FileLocationOptions> fileLocationOptions, ILogger<MergeCommand> logger, ILocationRepository locationRepository)
+        public MergeCommand(ICounselorRepository counselorRepository, IEventRepository eventRepository,
+            IOptions<FileLocationOptions> fileLocationOptions, ILogger<MergeCommand> logger,
+            ILocationRepository locationRepository)
         {
             _counselorRepository = counselorRepository;
             _eventRepository = eventRepository;
@@ -44,7 +45,8 @@ namespace Ns2020.App
             //};
 
             //HasRequiredOption("requiredOption=", "Required string argument also requiring a value.", s => { });
-            HasOption("path=", "(Valgfri) Angivelse af sti for .xlxs-filer", s => { fileLocationOptions.Value.Path = s; });
+            HasOption("path=", "(Valgfri) Angivelse af sti for .xlxs-filer",
+                s => { fileLocationOptions.Value.Path = s; });
 
             //HasAdditionalArguments(2, "<Argument1> <Argument2>");
         }
@@ -62,7 +64,7 @@ namespace Ns2020.App
             if (BooleanOption) throw new Exception("Throwing unhandled exception because BooleanOption is true");
 
             var counselors = _counselorRepository.GetAll().ToArray();
-            _logger.LogInformation("Vejledere: "+counselors.Length);
+            _logger.LogInformation("Vejledere: " + counselors.Length);
 
             var events = _eventRepository.GetAll().ToArray();
             _logger.LogInformation("Arrangementer: " + events.Length);

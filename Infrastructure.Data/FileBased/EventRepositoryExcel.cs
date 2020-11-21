@@ -10,8 +10,8 @@ namespace Infrastructure.Data.FileBased
 {
     public class EventRepositoryExcel : IEventRepository
     {
-        private readonly ILogger<EventRepositoryExcel> _logger;
         private readonly IOptions<FileLocationOptions> _fileLocationOptions;
+        private readonly ILogger<EventRepositoryExcel> _logger;
 
         public EventRepositoryExcel(ILogger<EventRepositoryExcel> logger,
             IOptions<FileLocationOptions> fileLocationOptions)

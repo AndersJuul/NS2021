@@ -1,6 +1,6 @@
 ﻿namespace Tests.Helpers
 {
-    public class BaseUnitTest:BaseTest
+    public class BaseUnitTest : BaseTest
     {
     }
 }

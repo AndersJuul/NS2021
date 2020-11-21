@@ -24,7 +24,7 @@ namespace Tests.Infrastructure.Data.FileBased
 
             // Assert
             Assert.AreEqual(41, result.Length);
-            Assert.AreEqual("mu",result[0].EventId);
+            Assert.AreEqual("mu", result[0].EventId);
         }
     }
 }

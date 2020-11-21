@@ -24,7 +24,7 @@ namespace Tests.Infrastructure.Data.FileBased
 
             // Assert
             Assert.AreEqual(27, result.Length);
-            Assert.AreEqual("bisko",result[0].Id);
+            Assert.AreEqual("bisko", result[0].Id);
         }
     }
 }

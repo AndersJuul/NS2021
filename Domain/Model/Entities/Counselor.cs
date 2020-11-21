@@ -11,6 +11,7 @@ namespace Domain.Model.Entities
             Phone = phone;
             Email = email;
         }
+
         public string Initials { get; }
         public string Name { get; }
         public PhoneNumber Phone { get; }
