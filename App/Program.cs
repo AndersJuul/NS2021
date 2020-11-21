@@ -24,15 +24,15 @@ namespace Ns2020.App
                 .AddJsonFile("appsettings.json", false)
                 .Build();
 
-            var serviceCollection = new ServiceCollection()
-                .AddLogging(c=>c.AddConsole())
-                .AddScoped<ICounselorRepository, CounselorRepositoryExcel>();
+            var serviceCollection = new ServiceCollection();
+            serviceCollection.AddLogging(c=>c.AddConsole());
+            serviceCollection.AddScoped<ICounselorRepository, CounselorRepositoryExcel>();
+            serviceCollection.AddScoped<IEventRepository, EventRepositoryExcel>();
+
             // Add access to generic IConfigurationRoot
             serviceCollection.AddSingleton(configuration);
             serviceCollection.AddOptions();
             serviceCollection.Configure<FileLocationOptions>(configuration.GetSection("FileLocation"));
-
-
 
             Assembly.GetAssembly(typeof(MergeCommand))?
                 .GetTypesAssignableFrom<ConsoleCommand>()

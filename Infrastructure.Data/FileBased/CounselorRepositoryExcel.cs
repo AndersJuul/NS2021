@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.IO;
-using Domain;
 using Domain.Abstractions;
 using Domain.Model.Entities;
 using Domain.Model.ValueObjects;
@@ -13,19 +12,20 @@ namespace Infrastructure.Data.FileBased
     public class CounselorRepositoryExcel: ICounselorRepository
     {
         private readonly ILogger<CounselorRepositoryExcel> _logger;
-        private readonly string _fileName;
+        private readonly IOptions<FileLocationOptions> _fileLocationOptions;
 
         public CounselorRepositoryExcel(ILogger<CounselorRepositoryExcel> logger, IOptions<FileLocationOptions> fileLocationOptions)
         {
             _logger = logger;
-            _fileName =Path.GetFullPath(Path.Combine(fileLocationOptions.Value.Path, "Counselors.xlsx"));
+            _fileLocationOptions = fileLocationOptions;
         }
 
         public IEnumerable<Counselor> GetAll()
         {
-            _logger.LogInformation("GetAll -- called, reading from "+_fileName);
+            var fileName = Path.GetFullPath(Path.Combine(_fileLocationOptions.Value.Path, "Counselors.xlsx"));
+            _logger.LogInformation("GetAll -- called, reading from "+fileName);
 
-            using var package = new ExcelPackage(new FileInfo(_fileName));
+            using var package = new ExcelPackage(new FileInfo(fileName));
             
             var firstSheet = package.Workbook.Worksheets["Sheet1"];
             
