@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using Infrastructure.Data;
+using Infrastructure.Data.FileBased;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using NSubstitute;
@@ -14,9 +15,9 @@ namespace Tests
         public void GetAll_ReturnsCounsolers()
         {
             // Arrange
-            var fileLocationOptions = new FileLocationOptions {Path = @"C:\Data\NS"};
+            var fileLocationOptions = new FileLocationOptions {Path = @".\\TestData"};
             var locationOptions = new OptionsWrapper<FileLocationOptions>(fileLocationOptions);
-            var logger = Substitute.For<ILogger<CounselorRepositoryExcel>>();
+            var logger = TestLogger.Create<CounselorRepositoryExcel>();
             var sut = new CounselorRepositoryExcel(logger, locationOptions);
 
             // Act
