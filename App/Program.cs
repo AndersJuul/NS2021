@@ -2,22 +2,19 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
-using Domain;
 using Domain.Abstractions;
 using Infrastructure.Data;
 using Infrastructure.Data.FileBased;
 using ManyConsole;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using Serilog;
 
 namespace Ns2020.App
 {
     public class Program
     {
-        static int Main(string[] args)
+        private static int Main(string[] args)
         {
             var configuration = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetParent(AppContext.BaseDirectory).FullName)

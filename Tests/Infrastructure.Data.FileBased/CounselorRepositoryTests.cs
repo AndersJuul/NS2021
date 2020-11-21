@@ -1,21 +1,15 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using Infrastructure.Data;
 using Infrastructure.Data.FileBased;
 using Microsoft.Extensions.Options;
 using NUnit.Framework;
 using Tests.Helpers;
 
-namespace Tests
+namespace Tests.Infrastructure.Data.FileBased
 {
     [TestFixture]
-    public class CounselorRepositoryTests: BaseIntegrationTest
+    public class CounselorRepositoryExcelTests : BaseIntegrationTest
     {
-        public CounselorRepositoryTests()
-        {
-            TestContext.WriteLine("aTest started at: " + DateTime.Now.ToString("yyyy-MM-dd HH.mm.ss"));
-        }
-
         [Test]
         public void GetAll_ReturnsCounselors()
         {
