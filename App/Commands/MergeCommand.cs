@@ -4,6 +4,7 @@ using System.Linq;
 using Domain.Abstractions;
 using Infrastructure.Data;
 using ManyConsole;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Mono.Options;
 
@@ -20,11 +21,13 @@ namespace Ns2020.App
         public bool BooleanOption;
         public List<string> OptionalArgumentList = new List<string>();
         private readonly IEventRepository _eventRepository;
+        private readonly ILogger<MergeCommand> _logger;
 
-        public MergeCommand(ICounselorRepository counselorRepository, IEventRepository eventRepository, IOptions<FileLocationOptions> fileLocationOptions)
+        public MergeCommand(ICounselorRepository counselorRepository, IEventRepository eventRepository, IOptions<FileLocationOptions> fileLocationOptions, ILogger<MergeCommand> logger)
         {
             _counselorRepository = counselorRepository;
             _eventRepository = eventRepository;
+            _logger = logger;
             IsCommand("Flet", "Fletter Vejledere, Arrangementer og Steder til Resultatfil");
 
             //HasOption("b|booleanOption", "Boolean flag option", b => BooleanOption = true);
@@ -57,7 +60,7 @@ namespace Ns2020.App
             if (BooleanOption) throw new Exception("Throwing unhandled exception because BooleanOption is true");
 
             var counselors = _counselorRepository.GetAll().ToArray();
-            Console.WriteLine(counselors.Length);
+            _logger.LogInformation("Vejledere:"+counselors.Length);
 
             var events = _eventRepository.GetAll().ToArray();
             Console.WriteLine(events.Length);

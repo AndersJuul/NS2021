@@ -11,6 +11,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Serilog;
 
 namespace Ns2020.App
 {
@@ -18,14 +19,19 @@ namespace Ns2020.App
     {
         static int Main(string[] args)
         {
-            Console.WriteLine("NS Planlægning 2020");
             var configuration = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetParent(AppContext.BaseDirectory).FullName)
                 .AddJsonFile("appsettings.json", false)
                 .Build();
 
+            Log.Logger = new LoggerConfiguration()
+                .ReadFrom.Configuration(configuration)
+                .CreateLogger();
+
+            Console.WriteLine("NS Planlægning 2020");
+
             var serviceCollection = new ServiceCollection();
-            serviceCollection.AddLogging(c=>c.AddConsole());
+            serviceCollection.AddLogging(c=>c.AddSerilog());
             serviceCollection.AddScoped<ICounselorRepository, CounselorRepositoryExcel>();
             serviceCollection.AddScoped<IEventRepository, EventRepositoryExcel>();
 
