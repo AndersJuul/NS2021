@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using Application.Interfaces;
 using Domain.Interfaces;
 using Domain.Model.Entities;
 using Microsoft.Extensions.Logging;

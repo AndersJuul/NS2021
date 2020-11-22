@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using Application.Services;
 using AutoFixture;
 using CleanArchitecture.IntegrationTests.Helpers;
 using CleanArchitecture.Tests.Helpers;
@@ -44,8 +45,9 @@ namespace CleanArchitecture.IntegrationTests.Presentation.Console
                     new CounselorEntityAdapter(), new EventEntityAdapter(), new LocationEntityAdapter(), new RequestEntityAdapter(),
                 }, fileLocationOptions
             );
+            var testDataCreationService = new TestDataCreationService(TestLogger.Create<TestDataCreationService>(), excelRepository);
             return new ProduceTestDataCommand(TestLogger.Create<ProduceTestDataCommand>(),
-                fileLocationOptions, excelRepository);
+                fileLocationOptions, excelRepository, testDataCreationService);
         }
     }
 }

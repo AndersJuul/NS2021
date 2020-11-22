@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Reflection;
+using Application.Interfaces;
 using Application.Services;
-using CleanArchitecture.Core;
 using Domain.Interfaces;
 using Infrastructure;
 using Infrastructure.Data;
@@ -50,6 +49,7 @@ namespace Ns2020.App
             serviceCollection.AddLogging(c => c.AddSerilog());
             serviceCollection.AddScoped<IRepository, ExcelRepository>();
             serviceCollection.AddScoped<IMergeService, MergeService>();
+            serviceCollection.AddScoped<ITestDataCreationService, TestDataCreationService>();
 
             // Add access to generic IConfigurationRoot
             serviceCollection.AddSingleton(configuration);
@@ -60,16 +60,13 @@ namespace Ns2020.App
                 .GetTypesAssignableFrom<ConsoleCommand>()
                 .ForEach(t =>
                 {
-                    if (!t.IsAbstract)
-                    {
-                        serviceCollection.AddScoped(typeof(ConsoleCommand), t);
-                    }
+                    if (!t.IsAbstract) serviceCollection.AddScoped(typeof(ConsoleCommand), t);
                 });
 
             Assembly.GetAssembly(typeof(IEntityAdapter))?
                 .GetTypesAssignableFrom<IEntityAdapter>()
                 .ForEach(t => { serviceCollection.AddScoped(typeof(IEntityAdapter), t); });
-            
+
             return serviceCollection;
         }
 

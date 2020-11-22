@@ -2,7 +2,7 @@
   "profiles": {
     "Presentation.Console": {
       "commandName": "Project",
-      "commandLineArgs": "Flet --workroot=C:\\NS2021"
+      "commandLineArgs": "ProduceTestData --workroot=C:\\NS2021"
     }
   }
 }

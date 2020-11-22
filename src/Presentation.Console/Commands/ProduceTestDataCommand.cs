@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using AutoFixture;
+using Application.Interfaces;
 using Domain.Interfaces;
 using Domain.Model.Entities;
 using Infrastructure;
@@ -15,15 +15,15 @@ namespace Ns2020.App.Commands
         private readonly IRepository _repository;
 
         private readonly List<string> _optionalArgumentList = new List<string>();
-        private readonly Fixture _fixture;
+        private readonly ITestDataCreationService _testDataCreationService;
 
         public ProduceTestDataCommand(ILogger<ProduceTestDataCommand> logger,
             IOptions<FileLocationOptions> fileLocationOptions,
-            IRepository repository):base(fileLocationOptions)
+            IRepository repository, ITestDataCreationService testDataCreationService):base(fileLocationOptions)
         {
-            _fixture=new Fixture();
             _logger = logger;
             _repository = repository;
+            _testDataCreationService = testDataCreationService;
             IsCommand("ProduceTestData", "Producerer en dummy Request-fil");
         }
 
@@ -41,43 +41,12 @@ namespace Ns2020.App.Commands
             var locations = _repository.ListAsync<Location>().Result;
             _logger.LogInformation("Steder: " + locations.Count);
 
-
-            for (int i = 0; i < 50; i++)
-            {
-                var request = _fixture
-                    .Build<Request>()
-                    .Without(x => x.Events)
-                    .With(x=>x.Id, DateTime.Now.ToString("yyyy-MM-dd.HH.mm.ss.fff"))
-                    .With(x=>x.ContactName, GetContactName())
-                    .With(x=>x.ContactPhone, GetContactPhone())
-                    .Create();
-                var result = _repository.AddAsync(request).Result;
-            }
+            _testDataCreationService.CreateRequests(50);
 
             var requestsAfter = _repository.ListAsync<Request>().Result;
             _logger.LogInformation("Ønsker: " + requestsAfter.Count);
 
             return 0;
-        }
-
-        private string GetContactPhone()
-        {
-            var r = new Random();
-            var result = "";
-            while (result.Length < 8)
-            {
-                result += r.Next(1, 10);
-            }
-
-            return result;
-        }
-
-        private string GetContactName()
-        {
-            var firstnames = new[] { "Ole", "Kurt", "Jonna", "Claus", "Signe", "Thomas", "Andy", "Gitte", "Kasper", "Christian", "Isabella", "Victoria", "Henriette", "Jesper" };
-            var lastnames = new[] { "Olsen", "Clausen", "Thomasson", "Kaspersen", "Christiansen", "Jespersen", "Jensen","Juul", "Juel", "Hansen" };
-            var r=new Random();
-            return firstnames[r.Next(firstnames.Length)] + " " + lastnames[r.Next(lastnames.Length)];
         }
     }
 }
