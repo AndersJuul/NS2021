@@ -24,14 +24,5 @@ namespace Domain.Model.Entities
         public string Remember { get; private set; }
         public string ContactDaysBefore { get; private set; }
 
-        public override void SetValues(string[] values)
-        {
-            if (values.Length != 4)
-                throw new ArgumentException();
-            Id = values[0];
-            Description = values[1];
-            Remember = values[2];
-            ContactDaysBefore = values[3];
-        }
     }
 }

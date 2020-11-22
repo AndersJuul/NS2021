@@ -9,6 +9,5 @@ namespace Domain.Model.Entities
 
         public List<BaseDomainEvent> Events = new List<BaseDomainEvent>();
 
-        public abstract void SetValues(string[] values);
     }
 }

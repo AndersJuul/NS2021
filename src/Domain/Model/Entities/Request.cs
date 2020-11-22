@@ -48,15 +48,5 @@ namespace Domain.Model.Entities
         public string SuggestedDate { get; set; }
         public string Remarks { get; set; }
         public string InstitutionOrSchool { get; set; }
-
-        public override void SetValues(string[] values)
-        {
-            if(values.Length!=3)
-                throw new ArgumentException();
-
-            Id = values[0];
-            ContactName = values[1];
-            ContactPhone = values[2];
-        }
     }
 }

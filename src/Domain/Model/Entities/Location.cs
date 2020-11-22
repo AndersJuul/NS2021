@@ -18,12 +18,5 @@ namespace Domain.Model.Entities
 
         public string Description { get; private set; }
 
-        public override void SetValues(string[] values)
-        {
-            if (values.Length != 2)
-                throw new ArgumentException();
-            Id = values[0];
-            Description = values[1];
-        }
     }
 }
