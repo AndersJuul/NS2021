@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using CleanArchitecture.Core;
 using CleanArchitecture.Infrastructure;
@@ -55,7 +56,13 @@ namespace Ns2020.App
 
             Assembly.GetAssembly(typeof(MergeCommand))?
                 .GetTypesAssignableFrom<ConsoleCommand>()
-                .ForEach(t => { serviceCollection.AddScoped(typeof(ConsoleCommand), t); });
+                .ForEach(t =>
+                {
+                    if (!t.IsAbstract)
+                    {
+                        serviceCollection.AddScoped(typeof(ConsoleCommand), t);
+                    }
+                });
 
             Assembly.GetAssembly(typeof(IEntityAdapter))?
                 .GetTypesAssignableFrom<IEntityAdapter>()

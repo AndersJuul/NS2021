@@ -2,7 +2,7 @@
   "profiles": {
     "Presentation.Console": {
       "commandName": "Project",
-      "commandLineArgs": "ProduceTestData --path=C:\\Projects\\NS2021\\tests\\CleanArchitecture.IntegrationTests\\Testdata"
+      "commandLineArgs": "ProduceTestData --workroot=C:\\NS2021"
     }
   }
 }

@@ -1,34 +1,29 @@
 ﻿using System;
 using System.Collections.Generic;
 using AutoFixture;
-using AutoFixture.Kernel;
 using CleanArchitecture.Core.Entities;
 using CleanArchitecture.Infrastructure;
 using CleanArchitecture.SharedKernel.Interfaces;
-using ManyConsole;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
 namespace Ns2020.App.Commands
 {
-    public class ProduceTestDataCommand : ConsoleCommand
+    public class ProduceTestDataCommand : NsConsoleCommand
     {
         private readonly ILogger<MergeCommand> _logger;
         private readonly IRepository _repository;
 
         private readonly List<string> _optionalArgumentList = new List<string>();
-        private Fixture _fixture;
+        private readonly Fixture _fixture;
 
         public ProduceTestDataCommand(IOptions<FileLocationOptions> fileLocationOptions, ILogger<MergeCommand> logger,
-            IRepository repository)
+            IRepository repository):base(fileLocationOptions)
         {
             _fixture=new Fixture();
             _logger = logger;
             _repository = repository;
             IsCommand("ProduceTestData", "Producerer en dummy Request-fil");
-
-            HasOption("path=", "(Valgfri) Angivelse af sti for .xlxs-filer",
-                s => { fileLocationOptions.Value.Path = s; });
         }
 
         public override int Run(string[] remainingArguments)

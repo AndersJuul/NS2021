@@ -39,7 +39,7 @@ namespace CleanArchitecture.Infrastructure.Data
             if (converter == null)
                 throw new ArgumentException("No converter found for " + type.FullName);
 
-            var fileName = Path.GetFullPath(Path.Combine(_fileLocationOptions.Path, converter.GetFileName()));
+            var fileName = GetFullPath(converter);
             _logger.LogInformation("GetAll -- called, reading from " + fileName);
 
             using var package = new ExcelPackage(new FileInfo(fileName));
@@ -83,7 +83,7 @@ namespace CleanArchitecture.Infrastructure.Data
             if (converter == null)
                 throw new ArgumentException("No converter found for " + type.FullName);
 
-            var fileName = Path.GetFullPath(Path.Combine(_fileLocationOptions.Path, converter.GetFileName()));
+            var fileName = GetFullPath(converter);
             _logger.LogInformation("GetAll -- called, reading from " + fileName);
 
             using var package = new ExcelPackage(new FileInfo(fileName));
@@ -125,6 +125,21 @@ namespace CleanArchitecture.Infrastructure.Data
             package.SaveAs(new FileInfo(fileName));
 
             return converter.GetEntity(rowValues) as T;
+        }
+
+        private string GetFullPath(IEntityAdapter converter) 
+        {
+            Directory.CreateDirectory(_fileLocationOptions.WorkRoot);
+            var fileName = converter.GetFileName();
+
+            var destFileName = Path.Combine(_fileLocationOptions.WorkRoot, fileName);
+            var sourceFileName = Path.Combine("DefaultInput", fileName);
+            if (!File.Exists(destFileName) && File.Exists(sourceFileName))
+            {
+                File.Copy(sourceFileName, destFileName);
+            }
+
+            return Path.GetFullPath(destFileName);
         }
 
         public Task UpdateAsync<T>(T entity) where T : BaseEntity, IAggregateRoot
