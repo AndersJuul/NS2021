@@ -13,7 +13,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Domain\Domain.csproj" />
-    <ProjectReference Include="..\src\CleanArchitecture.Core\CleanArchitecture.Core.csproj" />
     <ProjectReference Include="..\src\Domain\Domain.csproj" />
   </ItemGroup>
 

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Domain.Model.Entities;
 using Domain.ValueObjects;
+using Infrastructure.Interfaces;
 
 namespace Infrastructure.Data.EntityAdapters
 {

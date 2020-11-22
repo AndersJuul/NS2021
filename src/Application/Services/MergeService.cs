@@ -36,7 +36,7 @@ namespace Application.Services
 
             foreach (var request in requests)
             {
-                var result=new Result();
+                var result=new Result(request.Id);
                 results.Add(result);
             }
 

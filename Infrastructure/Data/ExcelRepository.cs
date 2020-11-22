@@ -7,6 +7,7 @@ using Ardalis.Specification;
 using Domain.Interfaces;
 using Domain.Model.Entities;
 using Infrastructure.Data.EntityAdapters;
+using Infrastructure.Interfaces;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using OfficeOpenXml;
@@ -34,6 +35,34 @@ namespace Infrastructure.Data
 
         public async Task<List<T>> ListAsync<T>() where T : BaseEntity, IAggregateRoot
         {
+            using var stuff = GetStuff<T>();
+
+            var result = new List<T>();
+
+            for (var row = 2; row <stuff.firstSheet.Cells.Rows; row++)
+            {
+                var id =stuff. firstSheet.Cells[$"A{row}"].Text;
+                if (string.IsNullOrEmpty(id))
+                    break;
+
+                var rowValues = new List<string> {id};
+                for (var column = 2; column <stuff. firstSheet.Cells.Columns; column++)
+                {
+                    var cellAddress = ((char) (64 + column)).ToString() + row;
+                    var cellValue = stuff.firstSheet.Cells[cellAddress].Text;
+                    if (string.IsNullOrEmpty(cellValue))
+                        break;
+                    rowValues.Add(cellValue);
+                }
+
+                result.Add(stuff.converter.GetEntity(rowValues) as T);
+            }
+
+            return result;
+        }
+
+        private Stuff GetStuff<T>()
+        {
             var type = typeof(T);
             var converter = _converters.SingleOrDefault(x => x.CanHandle(type));
             if (converter == null)
@@ -42,33 +71,21 @@ namespace Infrastructure.Data
             var fileName = GetFullPath(converter);
             _logger.LogInformation("GetAll -- called, reading from " + fileName);
 
-            using var package = new ExcelPackage(new FileInfo(fileName));
+            var package = new ExcelPackage(new FileInfo(fileName));
             if (!package.File.Exists)
-                throw new ArgumentException("File not found: " + fileName);
+            {
+                package.Workbook.Worksheets.Add("Sheet0");
+            }
+                
             var firstSheet = package.Workbook.Worksheets[0];
 
-            var result = new List<T>();
-
-            for (var row = 2; row < firstSheet.Cells.Rows; row++)
+            return new Stuff
             {
-                var id = firstSheet.Cells[$"A{row}"].Text;
-                if (string.IsNullOrEmpty(id))
-                    break;
-
-                var rowValues = new List<string> {id};
-                for (var column = 2; column < firstSheet.Cells.Columns; column++)
-                {
-                    var cellAddress = ((char) (64 + column)).ToString() + row;
-                    var cellValue = firstSheet.Cells[cellAddress].Text;
-                    if (string.IsNullOrEmpty(cellValue))
-                        break;
-                    rowValues.Add(cellValue);
-                }
-
-                result.Add(converter.GetEntity(rowValues) as T);
-            }
-
-            return result;
+                package = package,
+                firstSheet = firstSheet,
+                converter = converter,
+                fileName = fileName
+            };
         }
 
         public Task<List<T>> ListAsync<T>(ISpecification<T> spec) where T : BaseEntity, IAggregateRoot
@@ -78,36 +95,27 @@ namespace Infrastructure.Data
 
         public async Task<T> AddAsync<T>(T entity) where T : BaseEntity, IAggregateRoot
         {
-            var type = typeof(T);
-            var converter = _converters.SingleOrDefault(x => x.CanHandle(type));
-            if (converter == null)
-                throw new ArgumentException("No converter found for " + type.FullName);
+            using var stuff = GetStuff<T>();
 
-            var fileName = GetFullPath(converter);
-            _logger.LogInformation("GetAll -- called, reading from " + fileName);
-
-            using var package = new ExcelPackage(new FileInfo(fileName));
-            if (!package.File.Exists) package.Workbook.Worksheets.Add("Formularsvar");
-            var firstSheet = package.Workbook.Worksheets[0];
-            firstSheet.Cells["A1"].Value = "Tidsstempel";
-            firstSheet.Cells["B1"].Value = "Kontaktperson, navn";
-            firstSheet.Cells["C1"].Value = "Kontaktperson, telefon";
-            firstSheet.Cells["D1"].Value = "Kontaktperson, email";
-            firstSheet.Cells["E1"].Value = "Skole / Institution, navn";
-            firstSheet.Cells["F1"].Value = "Deltagergruppe";
-            firstSheet.Cells["G1"].Value = "Deltagere, aldersinterval";
-            firstSheet.Cells["H1"].Value = "Deltagere, antal";
-            firstSheet.Cells["I1"].Value = "Ønsket arrangement";
-            firstSheet.Cells["J1"].Value = "Ønsket mødested";
-            firstSheet.Cells["K1"].Value = "Hvornår ønskes arrangement?";
-            firstSheet.Cells["L1"].Value = "Ønsket dato for afholdelse";
-            firstSheet.Cells["M1"].Value = "Bemærkninger";
-            firstSheet.Cells["N1"].Value = "Institution eller skole";
+           stuff. firstSheet.Cells["A1"].Value = "Tidsstempel";
+           stuff.firstSheet.Cells["B1"].Value = "Kontaktperson, navn";
+           stuff.firstSheet.Cells["C1"].Value = "Kontaktperson, telefon";
+           stuff.firstSheet.Cells["D1"].Value = "Kontaktperson, email";
+           stuff.firstSheet.Cells["E1"].Value = "Skole / Institution, navn";
+           stuff.firstSheet.Cells["F1"].Value = "Deltagergruppe";
+           stuff.firstSheet.Cells["G1"].Value = "Deltagere, aldersinterval";
+           stuff.firstSheet.Cells["H1"].Value = "Deltagere, antal";
+           stuff.firstSheet.Cells["I1"].Value = "Ønsket arrangement";
+           stuff.firstSheet.Cells["J1"].Value = "Ønsket mødested";
+           stuff.firstSheet.Cells["K1"].Value = "Hvornår ønskes arrangement?";
+           stuff.firstSheet.Cells["L1"].Value = "Ønsket dato for afholdelse";
+           stuff.firstSheet.Cells["M1"].Value = "Bemærkninger";
+           stuff.firstSheet.Cells["N1"].Value = "Institution eller skole";
 
             var firstEmptyRow = 0;
-            for (var row = 2; row < firstSheet.Cells.Rows; row++)
+            for (var row = 2; row < stuff.firstSheet.Cells.Rows; row++)
             {
-                var id = firstSheet.Cells[$"A{row}"].Text;
+                var id = stuff.firstSheet.Cells[$"A{row}"].Text;
                 if (string.IsNullOrEmpty(id))
                 {
                     firstEmptyRow = row;
@@ -115,16 +123,16 @@ namespace Infrastructure.Data
                 }
             }
 
-            var rowValues = converter.GetValuesFromEntity(entity);
+            var rowValues = stuff.converter.GetValuesFromEntity(entity);
             for (var column = 0; column < rowValues.Count; column++)
             {
                 var cellAddress = ((char) (65 + column)).ToString() + firstEmptyRow;
-                firstSheet.Cells[cellAddress].Value = rowValues[column];
+                stuff.firstSheet.Cells[cellAddress].Value = rowValues[column];
             }
 
-            package.SaveAs(new FileInfo(fileName));
+            stuff.package.SaveAs(new FileInfo(stuff.fileName));
 
-            return converter.GetEntity(rowValues) as T;
+            return stuff.converter.GetEntity(rowValues) as T;
         }
 
         private string GetFullPath(IEntityAdapter converter) 
@@ -152,9 +160,35 @@ namespace Infrastructure.Data
             throw new NotImplementedException();
         }
 
-        public Task AddOrUpdateAsync<T>(T entity) where T : BaseEntity, IAggregateRoot
+        public async Task AddOrUpdateAsync<T>(T entity) where T : BaseEntity, IAggregateRoot
         {
-            throw new NotImplementedException();
+            using var stuff = GetStuff<T>();
+
+            for (var row = 2; row < stuff.firstSheet.Cells.Rows; row++)
+            {
+                var id = stuff.firstSheet.Cells[$"A{row}"].Text;
+                if (string.IsNullOrEmpty(id))
+                {
+                    //End of file reached. We add.
+                    await AddAsync(entity);
+                    break;
+                }
+
+                if (id == entity.Id)
+                {
+                    // Entity found. We update.
+                    
+                    var rowValues = stuff.converter.GetValuesFromEntity(entity);
+                    for (var column = 0; column < rowValues.Count; column++)
+                    {
+                        var cellAddress = ((char)(65 + column)).ToString() + row;
+                        stuff.firstSheet.Cells[cellAddress].Value = rowValues[column];
+                    }
+
+                    stuff.package.SaveAs(new FileInfo(stuff.fileName));
+                    break;
+                }
+            }
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Infrastructure.Data.EntityAdapters;
+using Infrastructure.Interfaces;
 using ManyConsole;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -32,7 +33,7 @@ namespace CleanArchitecture.IntegrationTests
             Assert.AreEqual(2, consoleCommands.Count());
 
             var adapters = serviceProvider.GetServices<IEntityAdapter>();
-            Assert.AreEqual(4, adapters.Count());
+            Assert.AreEqual(5, adapters.Count());
         }
     }
 }

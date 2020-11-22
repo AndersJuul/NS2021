@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Domain.Model.Entities;
 
-namespace Infrastructure.Data.EntityAdapters
+namespace Infrastructure.Interfaces
 {
     public interface IEntityAdapter
     {

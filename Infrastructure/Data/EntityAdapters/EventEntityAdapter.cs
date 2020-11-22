@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Domain.Model.Entities;
+using Infrastructure.Interfaces;
 
 namespace Infrastructure.Data.EntityAdapters
 {

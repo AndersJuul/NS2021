@@ -5,6 +5,7 @@ using CleanArchitecture.Tests.Helpers;
 using Infrastructure;
 using Infrastructure.Data;
 using Infrastructure.Data.EntityAdapters;
+using Infrastructure.Interfaces;
 using Microsoft.Extensions.Options;
 using Ns2020.App.Commands;
 using NUnit.Framework;

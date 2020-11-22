@@ -6,6 +6,7 @@ using Domain.Model.Entities;
 using Infrastructure;
 using Infrastructure.Data;
 using Infrastructure.Data.EntityAdapters;
+using Infrastructure.Interfaces;
 using Microsoft.Extensions.Options;
 using NUnit.Framework;
 

@@ -8,6 +8,7 @@ using Domain.Interfaces;
 using Infrastructure;
 using Infrastructure.Data;
 using Infrastructure.Data.EntityAdapters;
+using Infrastructure.Interfaces;
 using ManyConsole;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
