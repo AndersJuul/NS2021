@@ -11,13 +11,14 @@ namespace Ns2020.App.Commands
 {
     public class ProduceTestDataCommand : NsConsoleCommand
     {
-        private readonly ILogger<MergeCommand> _logger;
+        private readonly ILogger<ProduceTestDataCommand> _logger;
         private readonly IRepository _repository;
 
         private readonly List<string> _optionalArgumentList = new List<string>();
         private readonly Fixture _fixture;
 
-        public ProduceTestDataCommand(IOptions<FileLocationOptions> fileLocationOptions, ILogger<MergeCommand> logger,
+        public ProduceTestDataCommand(ILogger<ProduceTestDataCommand> logger,
+            IOptions<FileLocationOptions> fileLocationOptions,
             IRepository repository):base(fileLocationOptions)
         {
             _fixture=new Fixture();

@@ -1,17 +1,9 @@
-﻿using System;
-using Domain.Interfaces;
+﻿using Domain.Interfaces;
 
 namespace Domain.Model.Entities
 {
     public class Event : BaseEntity, IAggregateRoot
     {
-        public Event()
-        {
-            Description = "";
-            Remember = "";
-            ContactDaysBefore = "";
-        }
-
         public Event(string id, string description, string remember, string contactDaysBefore)
         {
             Id = id;
@@ -20,9 +12,8 @@ namespace Domain.Model.Entities
             ContactDaysBefore = contactDaysBefore;
         }
 
-        public string Description { get; private set; }
-        public string Remember { get; private set; }
-        public string ContactDaysBefore { get; private set; }
-
+        public string Description { get; }
+        public string Remember { get; }
+        public string ContactDaysBefore { get; }
     }
 }

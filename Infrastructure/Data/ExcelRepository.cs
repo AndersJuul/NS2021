@@ -151,5 +151,10 @@ namespace Infrastructure.Data
         {
             throw new NotImplementedException();
         }
+
+        public Task AddOrUpdateAsync<T>(T entity) where T : BaseEntity, IAggregateRoot
+        {
+            throw new NotImplementedException();
+        }
     }
 }

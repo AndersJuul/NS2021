@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using Application.Services;
-using CleanArchitecture.Core;
 using Domain.Interfaces;
 using Domain.Model.Entities;
 using Infrastructure;
@@ -18,7 +17,8 @@ namespace Ns2020.App.Commands
         private readonly List<string> _optionalArgumentList = new List<string>();
         private readonly IMergeService _mergeService;
 
-        public MergeCommand(IOptions<FileLocationOptions> fileLocationOptions, ILogger<MergeCommand> logger,
+        public MergeCommand(ILogger<MergeCommand> logger,
+            IOptions<FileLocationOptions> fileLocationOptions,
             IRepository repository, IMergeService mergeService):base(fileLocationOptions)
         {
             _logger = logger;

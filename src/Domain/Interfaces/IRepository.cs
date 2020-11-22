@@ -13,5 +13,6 @@ namespace Domain.Interfaces
         Task<T> AddAsync<T>(T entity) where T : BaseEntity, IAggregateRoot;
         Task UpdateAsync<T>(T entity) where T : BaseEntity, IAggregateRoot;
         Task DeleteAsync<T>(T entity) where T : BaseEntity, IAggregateRoot;
+        Task AddOrUpdateAsync<T>(T entity) where T : BaseEntity, IAggregateRoot;
     }
 }

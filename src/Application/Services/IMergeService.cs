@@ -1,7 +1,9 @@
-﻿namespace Application.Services
+﻿using System.Threading.Tasks;
+
+namespace Application.Services
 {
     public interface IMergeService
     {
-        void Merge();
+        Task Merge();
     }
 }
