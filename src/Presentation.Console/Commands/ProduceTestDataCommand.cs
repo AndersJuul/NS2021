@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using AutoFixture;
-using CleanArchitecture.Core.Entities;
-using CleanArchitecture.Infrastructure;
-using CleanArchitecture.SharedKernel.Interfaces;
+using Domain.Interfaces;
+using Domain.Model.Entities;
+using Infrastructure;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 

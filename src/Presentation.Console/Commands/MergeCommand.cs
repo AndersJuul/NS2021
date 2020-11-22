@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using CleanArchitecture.Core.Entities;
-using CleanArchitecture.Infrastructure;
-using CleanArchitecture.SharedKernel.Interfaces;
+using Application.Services;
+using CleanArchitecture.Core;
+using Domain.Interfaces;
+using Domain.Model.Entities;
+using Infrastructure;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
@@ -13,28 +15,23 @@ namespace Ns2020.App.Commands
         private readonly ILogger<MergeCommand> _logger;
         private readonly IRepository _repository;
 
-        //public string Argument1;
-        //public string Argument2;
-        //public string OptionalArgument1;
-        //public string OptionalArgument2;
-        public bool BooleanOption;
-        public List<string> OptionalArgumentList = new List<string>();
+        private readonly List<string> _optionalArgumentList = new List<string>();
+        private readonly IMergeService _mergeService;
 
         public MergeCommand(IOptions<FileLocationOptions> fileLocationOptions, ILogger<MergeCommand> logger,
-            IRepository repository):base(fileLocationOptions)
+            IRepository repository, IMergeService mergeService):base(fileLocationOptions)
         {
             _logger = logger;
             _repository = repository;
+            _mergeService = mergeService;
             IsCommand("Flet", "Fletter Vejledere, Arrangementer og Steder til Resultatfil");
 
         }
 
         public override int Run(string[] remainingArguments)
         {
-            OptionalArgumentList.ForEach(item =>
-                Console.WriteLine(@"List Item {0} = ""{1}""", OptionalArgumentList.IndexOf(item), item));
-
-            if (BooleanOption) throw new Exception("Throwing unhandled exception because BooleanOption is true");
+            _optionalArgumentList.ForEach(item =>
+                Console.WriteLine(@"List Item {0} = ""{1}""", _optionalArgumentList.IndexOf(item), item));
 
             var counselors = _repository.ListAsync<Counselor>().Result;
             _logger.LogInformation("Vejledere: " + counselors.Count);
@@ -48,7 +45,7 @@ namespace Ns2020.App.Commands
             var requests = _repository.ListAsync<Request>().Result;
             _logger.LogInformation("Ønsker: " + requests.Count);
 
-            //_mergeService.Merge();
+            _mergeService.Merge();
 
             return 0;
         }

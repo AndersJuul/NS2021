@@ -1,11 +1,11 @@
 ﻿using System.Threading.Tasks;
 using AutoFixture;
-using CleanArchitecture.Core.Entities;
-using CleanArchitecture.Infrastructure;
-using CleanArchitecture.Infrastructure.Data;
-using CleanArchitecture.Infrastructure.Data.EntityAdapters;
 using CleanArchitecture.IntegrationTests.Helpers;
 using CleanArchitecture.Tests.Helpers;
+using Domain.Model.Entities;
+using Infrastructure;
+using Infrastructure.Data;
+using Infrastructure.Data.EntityAdapters;
 using Microsoft.Extensions.Options;
 using NUnit.Framework;
 

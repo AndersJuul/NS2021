@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq;
-using CleanArchitecture.Infrastructure.Data.EntityAdapters;
+using Infrastructure.Data.EntityAdapters;
 using ManyConsole;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;

@@ -1,6 +1,6 @@
 ﻿using System;
 using System.IO;
-using CleanArchitecture.Infrastructure;
+using Infrastructure;
 using ManyConsole;
 using Microsoft.Extensions.Options;
 

@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using Application.Services;
 using CleanArchitecture.Core;
-using CleanArchitecture.Infrastructure;
-using CleanArchitecture.Infrastructure.Data;
-using CleanArchitecture.Infrastructure.Data.EntityAdapters;
-using CleanArchitecture.SharedKernel.Interfaces;
+using Domain.Interfaces;
+using Infrastructure;
+using Infrastructure.Data;
+using Infrastructure.Data.EntityAdapters;
 using ManyConsole;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -48,6 +49,7 @@ namespace Ns2020.App
             var serviceCollection = new ServiceCollection();
             serviceCollection.AddLogging(c => c.AddSerilog());
             serviceCollection.AddScoped<IRepository, ExcelRepository>();
+            serviceCollection.AddScoped<IMergeService, MergeService>();
 
             // Add access to generic IConfigurationRoot
             serviceCollection.AddSingleton(configuration);
