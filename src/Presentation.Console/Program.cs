@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
+using CleanArchitecture.Core;
 using CleanArchitecture.Infrastructure;
 using CleanArchitecture.Infrastructure.Data;
 using CleanArchitecture.Infrastructure.Data.EntityAdapters;

@@ -23,8 +23,6 @@ namespace CleanArchitecture.Infrastructure
                 From = new MailAddress(from),
                 Subject = subject,
                 Body = body
-
-
             };
             message.To.Add(new MailAddress(to));
             await emailClient.SendMailAsync(message);

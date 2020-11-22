@@ -20,6 +20,7 @@ namespace CleanArchitecture.IntegrationTests
                 .Build();
             var serviceCollection = Program.GetServiceCollection(configuration);
             foreach (var service in serviceCollection.OrderBy(x => x.ToString())) Console.WriteLine(service);
+            Console.WriteLine();
             var services = serviceCollection.BuildServiceProvider();
             using var scope = services.CreateScope();
             var serviceProvider = scope.ServiceProvider;
@@ -28,10 +29,10 @@ namespace CleanArchitecture.IntegrationTests
                 .GetServices<ConsoleCommand>()
                 .ToArray();
             Assert.True(consoleCommands.Any(x => x is MergeCommand));
-            Assert.AreEqual(1, consoleCommands.Count());
+            Assert.AreEqual(2, consoleCommands.Count());
 
             var adapters = serviceProvider.GetServices<IEntityAdapter>();
-            Assert.AreEqual(3, adapters.Count());
+            Assert.AreEqual(4, adapters.Count());
         }
     }
 }

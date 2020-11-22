@@ -67,8 +67,10 @@ namespace Ns2020.App.Commands
             var locations = _repository.ListAsync<Location>().Result;
             _logger.LogInformation("Steder: " + locations.Count);
 
-            //var requests = _requestRepository.GetAll().ToArray();
-            //_logger.LogInformation("Ønsker: " + requests.Length);
+            var requests = _repository.ListAsync<Request>().Result;
+            _logger.LogInformation("Ønsker: " + requests.Count);
+
+            //_mergeService.Merge();
 
             return 0;
         }

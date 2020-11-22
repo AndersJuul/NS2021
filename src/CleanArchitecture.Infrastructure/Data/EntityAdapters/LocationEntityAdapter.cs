@@ -21,5 +21,10 @@ namespace CleanArchitecture.Infrastructure.Data.EntityAdapters
         {
             return new Location(rowValues[0], rowValues[1]);
         }
+
+        public List<string> GetValuesFromEntity(BaseEntity entity)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

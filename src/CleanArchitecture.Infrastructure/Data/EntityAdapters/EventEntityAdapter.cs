@@ -21,5 +21,10 @@ namespace CleanArchitecture.Infrastructure.Data.EntityAdapters
         {
             return new Event(rowValues[0], rowValues[1], rowValues[2], rowValues[3]);
         }
+
+        public List<string> GetValuesFromEntity(BaseEntity entity)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

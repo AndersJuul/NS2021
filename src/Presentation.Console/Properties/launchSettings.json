@@ -2,7 +2,7 @@
   "profiles": {
     "Presentation.Console": {
       "commandName": "Project",
-      "commandLineArgs": "Flet --path=c:\\projects\\ns2021\\Tests\\Testdata"
+      "commandLineArgs": "ProduceTestData --path=C:\\Projects\\NS2021\\tests\\CleanArchitecture.IntegrationTests\\Testdata"
     }
   }
 }
