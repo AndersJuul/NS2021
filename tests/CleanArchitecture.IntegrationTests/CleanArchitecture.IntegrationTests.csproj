@@ -24,4 +24,16 @@
     <ProjectReference Include="..\CleanArchitecture.UnitTests\CleanArchitecture.UnitTests.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Testdata\Counselors.xlsx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Testdata\Events.xlsx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Testdata\Locations.xlsx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

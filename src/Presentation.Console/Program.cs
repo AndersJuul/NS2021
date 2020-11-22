@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
+using CleanArchitecture.Infrastructure;
 using CleanArchitecture.Infrastructure.Data;
+using CleanArchitecture.Infrastructure.Data.EntityAdapters;
 using CleanArchitecture.SharedKernel.Interfaces;
-using Infrastructure.Data;
 using ManyConsole;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -54,6 +55,11 @@ namespace Ns2020.App
             Assembly.GetAssembly(typeof(MergeCommand))?
                 .GetTypesAssignableFrom<ConsoleCommand>()
                 .ForEach(t => { serviceCollection.AddScoped(typeof(ConsoleCommand), t); });
+
+            Assembly.GetAssembly(typeof(IEntityAdapter))?
+                .GetTypesAssignableFrom<IEntityAdapter>()
+                .ForEach(t => { serviceCollection.AddScoped(typeof(IEntityAdapter), t); });
+            
             return serviceCollection;
         }
 

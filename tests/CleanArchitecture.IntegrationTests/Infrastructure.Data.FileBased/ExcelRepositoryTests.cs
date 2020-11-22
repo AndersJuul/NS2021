@@ -1,10 +1,12 @@
 ﻿using System.Threading.Tasks;
 using CleanArchitecture.Core.Entities;
 using CleanArchitecture.Infrastructure.Data;
+using CleanArchitecture.Infrastructure.Data.EntityAdapters;
+using CleanArchitecture.IntegrationTests.Helpers;
+using CleanArchitecture.Tests.Helpers;
 using NUnit.Framework;
-using Tests.Helpers;
 
-namespace Tests.Infrastructure.Data.FileBased
+namespace CleanArchitecture.IntegrationTests.Infrastructure.Data.FileBased
 {
     [TestFixture]
     public class ExcelRepositoryTests : BaseIntegrationTest
@@ -14,7 +16,7 @@ namespace Tests.Infrastructure.Data.FileBased
         {
             // Arrange
             var sut = new ExcelRepository(TestLogger.Create<ExcelRepository>(),
-                new IConverter[] {new CounselorConverter(), new EventConverter(), new LocationConverter()});
+                new IEntityAdapter[] {new CounselorEntityAdapter(), new EventEntityAdapter(), new LocationEntityAdapter()});
 
             // Act
             var result = await sut.ListAsync<Counselor>();
@@ -28,7 +30,7 @@ namespace Tests.Infrastructure.Data.FileBased
         {
             // Arrange
             var sut = new ExcelRepository(TestLogger.Create<ExcelRepository>(),
-                new IConverter[] { new CounselorConverter(), new EventConverter(), new LocationConverter() });
+                new IEntityAdapter[] { new CounselorEntityAdapter(), new EventEntityAdapter(), new LocationEntityAdapter() });
 
             // Act
             var result = await sut.ListAsync<Event>();
@@ -42,7 +44,7 @@ namespace Tests.Infrastructure.Data.FileBased
         {
             // Arrange
             var sut = new ExcelRepository(TestLogger.Create<ExcelRepository>(),
-                new IConverter[] { new CounselorConverter(), new EventConverter(), new LocationConverter() });
+                new IEntityAdapter[] { new CounselorEntityAdapter(), new EventEntityAdapter(), new LocationEntityAdapter() });
 
             // Act
             var result = await sut.ListAsync<Location>();

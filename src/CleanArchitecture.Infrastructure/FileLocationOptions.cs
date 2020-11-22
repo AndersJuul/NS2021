@@ -1,4 +1,4 @@
-﻿namespace Infrastructure.Data
+﻿namespace CleanArchitecture.Infrastructure
 {
     public class FileLocationOptions
     {

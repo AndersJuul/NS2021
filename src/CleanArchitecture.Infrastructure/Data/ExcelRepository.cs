@@ -4,10 +4,9 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Ardalis.Specification;
-using CleanArchitecture.Core.Entities;
+using CleanArchitecture.Infrastructure.Data.EntityAdapters;
 using CleanArchitecture.SharedKernel;
 using CleanArchitecture.SharedKernel.Interfaces;
-using Domain.Model.ValueObjects;
 using Microsoft.Extensions.Logging;
 using OfficeOpenXml;
 
@@ -16,9 +15,9 @@ namespace CleanArchitecture.Infrastructure.Data
     public class ExcelRepository:IRepository
     {
         private readonly ILogger<ExcelRepository> _logger;
-        private readonly IEnumerable<IConverter> _converters;
+        private readonly IEnumerable<IEntityAdapter> _converters;
 
-        public ExcelRepository(ILogger<ExcelRepository> logger, IEnumerable<IConverter> converters)
+        public ExcelRepository(ILogger<ExcelRepository> logger, IEnumerable<IEntityAdapter> converters)
         {
             _logger = logger;
             _converters = converters;
@@ -82,67 +81,6 @@ namespace CleanArchitecture.Infrastructure.Data
         public Task DeleteAsync<T>(T entity) where T : BaseEntity, IAggregateRoot
         {
             throw new NotImplementedException();
-        }
-    }
-
-    public interface IConverter
-    {
-        bool CanHandle(Type type);
-        string GetFileName();
-        BaseEntity GetEntity(List<string> rowValues);
-    }
-
-    public class LocationConverter : IConverter
-    {
-        public bool CanHandle(Type type)
-        {
-            return type == typeof(Location);
-        }
-
-        public string GetFileName()
-        {
-            return "Locations.xlsx";
-        }
-
-        public BaseEntity GetEntity(List<string> rowValues)
-        {
-            return new Location(rowValues[0], rowValues[1]);
-        }
-    }
-
-    public class EventConverter : IConverter
-    {
-        public bool CanHandle(Type type)
-        {
-            return  type == typeof(Event);
-        }
-
-        public string GetFileName()
-        {
-            return "Events.xlsx";
-        }
-
-        public BaseEntity GetEntity(List<string> rowValues)
-        {
-            return new Event(rowValues[0], rowValues[1], rowValues[2], rowValues[3]);
-        }
-    }
-
-    public class CounselorConverter : IConverter
-    {
-        public bool CanHandle(Type type)
-        {
-            return type == typeof(Counselor);
-        }
-
-        public string GetFileName()
-        {
-            return "Counselors.xlsx";
-        }
-
-        public BaseEntity GetEntity(List<string> rowValues)
-        {
-            return new Counselor(rowValues[0], rowValues[1],new PhoneNumber(  rowValues[2]), rowValues[3]);
         }
     }
 }

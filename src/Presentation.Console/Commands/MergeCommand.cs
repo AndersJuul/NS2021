@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using CleanArchitecture.Core.Entities;
+using CleanArchitecture.Infrastructure;
 using CleanArchitecture.SharedKernel.Interfaces;
-using Infrastructure.Data;
 using ManyConsole;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;

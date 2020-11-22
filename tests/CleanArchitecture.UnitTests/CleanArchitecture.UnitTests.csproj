@@ -25,6 +25,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\CleanArchitecture.SharedKernel\CleanArchitecture.SharedKernel.csproj" />
+    <ProjectReference Include="..\Tests\CleanArchitecture.Tests.csproj" />
   </ItemGroup>
 
 </Project>

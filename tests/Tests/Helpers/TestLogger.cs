@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.Extensions.Logging;
 
-namespace Tests.Helpers
+namespace CleanArchitecture.Tests.Helpers
 {
     public static class TestLogger
     {
